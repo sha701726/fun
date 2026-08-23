@@ -1,127 +1,143 @@
-## Overview
+# 🔐 File Encryption & Decryption Tool (Python + Cryptography)
 
-This document provides a detailed explanation of a Python script designed to encrypt and decrypt files using the `cryptography` library. The script is structured as a Jupyter Notebook and includes functionality for listing files, encrypting their contents, and decrypting them back to their original state. 
+[![Python](https://img.shields.io/badge/Python-3.6%2B-blue.svg)](https://www.python.org/)
+[![Library](https://img.shields.io/badge/Library-cryptography-green.svg)](https://pypi.org/project/cryptography/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Jupyter Notebook](https://img.shields.io/badge/Made%20with-Jupyter-orange.svg)](https://jupyter.org/)
 
-**Disclaimer:** This script is intended for educational purposes only. Misuse of encryption technologies for malicious purposes is illegal and unethical.
+A lightweight **Python script for file encryption and decryption** using the `cryptography` library's Fernet symmetric encryption. Built as a Jupyter Notebook, this tool automatically detects files in a directory, encrypts their contents with a securely generated key, and decrypts them back to their original state.
 
-## Table of Contents
+Great for learning **symmetric encryption**, **file security automation**, and **Python cryptography basics**.
+
+> ⚠️ **Disclaimer:** This project is intended strictly for **educational purposes** and legitimate security testing. Misuse of encryption tools for unauthorized or malicious purposes is illegal and unethical. Use responsibly.
+
+---
+
+## ✨ Features
+
+- 🔑 Generates a secure Fernet encryption key automatically
+- 📂 Auto-detects and lists all files in the working directory
+- 🔒 Encrypts file contents in place
+- 🔓 Decrypts files back to their original content using the saved key
+- 📓 Simple, readable Jupyter Notebook implementation — beginner friendly
+
+---
+
+## 📑 Table of Contents
 
 1. [Requirements](#requirements)
-2. [Script Structure](#script-structure)
-   - [Markdown Cells](#markdown-cells)
-   - [Code Cells](#code-cells)
-3. [Functions](#functions)
+2. [Installation](#installation)
+3. [Script Structure](#script-structure)
+4. [Functions](#functions)
    - [encrypt()](#encrypt)
    - [decrypt()](#decrypt)
-4. [Execution](#execution)
-5. [Conclusion](#conclusion)
+5. [Usage](#usage)
+6. [Notes](#important-notes)
+7. [Disclaimer](#disclaimer)
+8. [License](#license)
+
+---
 
 ## Requirements
 
-To run this script, you need:
 - Python 3.6 or higher
 - `cryptography` library
 
-You can install the required library using:
+## Installation
+
+Clone the repository and install dependencies:
+
 ```bash
+git clone https://github.com/sha701726/fun.git
+cd fun
 pip install cryptography
 ```
 
+---
+
 ## Script Structure
 
-The script is divided into multiple cells that serve different purposes.
+The notebook is organized into clearly documented Markdown and Code cells for easy readability.
 
 ### Markdown Cells
-
-Markdown cells are used for documentation and explanations. The script contains the following markdown sections:
-
-- **Title:** Introduces the purpose of the script.
-- **Append All The Files In A List Named As Files:** Describes the process of listing files to be encrypted.
-- **Function To Encrypt The Files:** Provides a brief overview of the encryption function.
-- **Function To Decrypt The Files:** Provides a brief overview of the decryption function.
-- **Calling The Functions "encrypt() and decrypt()":** Explains how to execute the functions.
+- **Title** — introduces the purpose of the script
+- **File Listing** — explains how files are collected for processing
+- **Encrypt Function** — overview of the encryption logic
+- **Decrypt Function** — overview of the decryption logic
+- **Function Calls** — how to run encryption/decryption
 
 ### Code Cells
 
-Code cells contain the executable Python code. The main components are:
+**Imports**
+```python
+import os
+from cryptography.fernet import Fernet
+```
 
-1. **Imports:**
-   ```python
-   import os
-   from cryptography.fernet import Fernet
-   ```
+**File Listing**
+```python
+files = []
+for file in os.listdir():
+    if file == "encryption.ipynb" or file == "key.dat":
+        continue
+    if os.path.isfile(file):
+        files.append(file)
+print("PRINTING THE FILES HERE: ", files)
+```
 
-2. **File Listing:**
-   ```python
-   files = []
-   for file in os.listdir():
-       if file == "encryption.ipynb" or file == "key.dat":
-           continue
-       if os.path.isfile(file):
-           files.append(file)
+**Main Execution Block**
+```python
+if __name__ == "__main__":
+    decrypt(files)
+```
 
-   print("PRINTNG THE FILES HERE: ", files)
-   ```
-
-3. **Encryption Function:**
-   ```python
-   def encrypt(files):
-       ...
-   ```
-
-4. **Decryption Function:**
-   ```python
-   def decrypt(files):
-       ...
-   ```
-
-5. **Main Execution Block:**
-   ```python
-   if __name__ == "__main__":
-       decrypt(files)
-   ```
+---
 
 ## Functions
 
-### encrypt()
+### `encrypt()`
+Encrypts all specified files using a newly generated key.
 
-This function encrypts all specified files using a generated key. 
+**Parameters:** `files` — list of file names to encrypt
 
-**Parameters:**
-- `files`: A list of file names to be encrypted.
+**Steps:**
+1. Generates a new Fernet encryption key
+2. Saves the key to `key.dat`
+3. Reads and encrypts each file's contents
+4. Writes encrypted content back to the original files
 
-**Key Steps:**
-1. Generates a new encryption key.
-2. Saves the key to a file named `key.dat`.
-3. Reads each file's contents and encrypts them.
-4. Writes the encrypted contents back to the original files.
+### `decrypt()`
+Decrypts files using the previously saved key.
 
-### decrypt()
+**Parameters:** `files` — list of file names to decrypt
 
-This function decrypts files using the previously saved key.
+**Steps:**
+1. Reads the encryption key from `key.dat`
+2. Reads and decrypts each file's contents
+3. Writes decrypted content back to the original files
 
-**Parameters:**
-- `files`: A list of file names to be decrypted.
+---
 
-**Key Steps:**
-1. Reads the encryption key from `key.dat`.
-2. Reads each file's encrypted contents and decrypts them.
-3. Writes the decrypted contents back to the original files.
+## Usage
 
-## Execution
-
-To execute the script, run the following command in your terminal or Jupyter Notebook environment:
+Run the notebook or script:
 
 ```python
 if __name__ == "__main__":
-    # Call encrypt(files) to encrypt files
-    decrypt(files)  # Uncomment to decrypt files
+    # encrypt(files)   # Uncomment to encrypt files
+    decrypt(files)      # Default: decrypts files
 ```
 
-### Important Notes:
-- By default, the script is set to decrypt files. Uncomment the `encrypt(files)` line to enable encryption.
-- Ensure that the script is run in a directory where the target files are located.
+### Important Notes
+- By default, the script runs in **decrypt mode**. Uncomment `encrypt(files)` to enable encryption.
+- Always run the script from the directory containing the target files.
+- Keep `key.dat` safe — losing it means the encrypted files cannot be recovered.
 
-## Conclusion
+---
 
-This Python script demonstrates basic file encryption and decryption using the `cryptography` library. It provides a simple interface for managing file security, making it useful for educational and legitimate security testing purposes. Always use such scripts responsibly and ethically.
+## Disclaimer
+
+This project is built purely for **educational and learning purposes** — to understand symmetric encryption concepts using Python's `cryptography` library. Do not use it for unauthorized access to or tampering with data you don't own or have explicit permission to work with.
+
+
+**Keywords:** python file encryption, python decrypt files, cryptography fernet python, symmetric encryption script, jupyter notebook encryption tool, python security automation
